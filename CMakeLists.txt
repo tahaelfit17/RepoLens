@@ -10,6 +10,7 @@ include(CTest)
 include(GNUInstallDirs)
 
 option(REPOLENS_BUILD_TESTS "Build RepoLens tests" ${PROJECT_IS_TOP_LEVEL})
+option(REPOLENS_BUILD_BENCHMARKS "Build RepoLens benchmarks" ${PROJECT_IS_TOP_LEVEL})
 
 set(CMAKE_CXX_EXTENSIONS OFF)
 
@@ -32,6 +33,16 @@ function(repolens_target_warnings target_name)
   endif()
 endfunction()
 
+add_library(repolens_support INTERFACE)
+add_library(RepoLens::support ALIAS repolens_support)
+
+target_compile_features(repolens_support INTERFACE cxx_std_23)
+target_include_directories(
+  repolens_support
+  INTERFACE
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
+
 add_library(repolens_core STATIC
   src/repolens/core/version.cpp)
 add_library(RepoLens::core ALIAS repolens_core)
@@ -44,6 +55,7 @@ target_include_directories(
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
   PRIVATE
     "${CMAKE_CURRENT_BINARY_DIR}/generated")
+target_link_libraries(repolens_core PUBLIC RepoLens::support)
 repolens_target_warnings(repolens_core)
 
 add_executable(repolens
@@ -62,6 +74,12 @@ if(BUILD_TESTING AND REPOLENS_BUILD_TESTS)
   repolens_target_warnings(repolens_tests)
 
   add_test(NAME repolens.core COMMAND repolens_tests)
+  add_test(
+    NAME repolens.architecture
+    COMMAND
+      "${CMAKE_COMMAND}"
+      "-DREPOLENS_SOURCE_DIR=${CMAKE_CURRENT_SOURCE_DIR}"
+      -P "${CMAKE_CURRENT_SOURCE_DIR}/cmake/check_architecture.cmake")
 endif()
 
 install(TARGETS repolens RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}")

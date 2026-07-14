@@ -44,12 +44,16 @@ the application layer.
 Source dependencies must point inward:
 
 ```text
-apps / adapters -> application -> core
-infrastructure -> application -> core
+apps / adapters -> application -> core -> support
+infrastructure -> application -> core -> support
 ```
 
 Core code must not include infrastructure headers or depend on concrete command
 line, filesystem, network, editor, or AI vendor behavior.
+
+CTest runs `repolens.architecture`, which scans source includes for forbidden
+layer dependencies. This check is deliberately simple and conservative: source
+layout and target dependencies must stay aligned with the architecture record.
 
 ## Cross-platform policy
 
