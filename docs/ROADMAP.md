@@ -14,6 +14,8 @@ starts.
 
 ## Phase 1: Repo Brief
 
+- Architecture boundary enforcement
+- Benchmark, logging, tracing, and memory policy foundations
 - Safe repository traversal
 - Ignore handling
 - File classification

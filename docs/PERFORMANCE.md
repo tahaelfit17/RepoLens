@@ -40,6 +40,23 @@ Every performance-sensitive milestone must document:
 - wall-clock timing
 - memory usage when practical
 
+Every major subsystem must be measurable before it is optimized. New subsystems
+must include at least one of:
+
+- a benchmark case in `repolens_benchmarks`
+- a trace span around the subsystem boundary
+- a documented measurement reason explaining why the subsystem is not yet
+  performance-sensitive
+
+Phase 1 subsystem names:
+
+- `startup`
+- `filesystem.traversal`
+- `ignore.matching`
+- `file.classification`
+- `brief.rendering`
+- `output.writing`
+
 ## Initial targets
 
 Phase 1 repository traversal targets:

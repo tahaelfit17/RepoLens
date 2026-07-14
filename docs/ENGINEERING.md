@@ -47,3 +47,9 @@ Skeleton files without executable purpose are not allowed.
 User-facing commands should fail with concise messages and stable nonzero exit
 codes. Library code should prefer explicit value types and narrow exceptions at
 process boundaries.
+
+## Memory
+
+Memory strategy is documented in [MEMORY.md](MEMORY.md). New repository-analysis
+code must identify the lifetime of stored data and avoid retaining large file
+contents by default.
