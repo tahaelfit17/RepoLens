@@ -82,4 +82,21 @@ if(BUILD_TESTING AND REPOLENS_BUILD_TESTS)
       -P "${CMAKE_CURRENT_SOURCE_DIR}/cmake/check_architecture.cmake")
 endif()
 
+if(REPOLENS_BUILD_BENCHMARKS)
+  add_executable(repolens_benchmarks
+    benchmarks/core/version_benchmarks.cpp
+    benchmarks/main.cpp)
+  target_compile_features(repolens_benchmarks PRIVATE cxx_std_23)
+  target_link_libraries(repolens_benchmarks PRIVATE RepoLens::core)
+  target_include_directories(repolens_benchmarks PRIVATE benchmarks)
+  repolens_target_warnings(repolens_benchmarks)
+
+  if(BUILD_TESTING)
+    add_test(
+      NAME repolens.benchmarks.smoke
+      COMMAND repolens_benchmarks --samples 3 --operations 10)
+    set_tests_properties(repolens.benchmarks.smoke PROPERTIES LABELS benchmark)
+  endif()
+endif()
+
 install(TARGETS repolens RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}")

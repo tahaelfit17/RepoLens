@@ -33,6 +33,10 @@ Performance-sensitive work must define:
 Phase 0 has no repository-analysis benchmark because no repository-analysis
 behavior exists yet.
 
+Benchmark code lives in `benchmarks/` and builds into `repolens_benchmarks`.
+The benchmark output format and regression-comparison policy are documented in
+[PERFORMANCE.md](PERFORMANCE.md).
+
 ## No placeholders
 
 Code merged to main must either implement committed behavior or not exist.
