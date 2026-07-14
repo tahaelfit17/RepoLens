@@ -16,6 +16,12 @@ Current Phase 0 core:
 - `repolens::core::version()`
 - `repolens::core::product_name()`
 
+### Support
+
+The support layer owns small cross-cutting utilities such as logging and
+tracing. Support is below the domain core and must not know about repository
+concepts, application use cases, infrastructure, adapters, or CLI behavior.
+
 ### Application layer
 
 The application layer will own use cases such as scanning a repository,

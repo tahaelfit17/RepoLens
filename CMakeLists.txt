@@ -33,15 +33,18 @@ function(repolens_target_warnings target_name)
   endif()
 endfunction()
 
-add_library(repolens_support INTERFACE)
+add_library(repolens_support STATIC
+  src/repolens/support/logging.cpp
+  src/repolens/support/tracing.cpp)
 add_library(RepoLens::support ALIAS repolens_support)
 
-target_compile_features(repolens_support INTERFACE cxx_std_23)
+target_compile_features(repolens_support PUBLIC cxx_std_23)
 target_include_directories(
   repolens_support
-  INTERFACE
+  PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
+repolens_target_warnings(repolens_support)
 
 add_library(repolens_core STATIC
   src/repolens/core/version.cpp)
@@ -66,6 +69,7 @@ repolens_target_warnings(repolens)
 
 if(BUILD_TESTING AND REPOLENS_BUILD_TESTS)
   add_executable(repolens_tests
+    tests/support/logging_tracing_tests.cpp
     tests/core/version_tests.cpp
     tests/main.cpp)
   target_compile_features(repolens_tests PRIVATE cxx_std_23)
