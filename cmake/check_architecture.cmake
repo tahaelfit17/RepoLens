@@ -13,7 +13,7 @@ set(source_globs
   "${repo_root}/src/**/*.cpp"
   "${repo_root}/src/**/*.hpp")
 
-file(GLOB_RECURSE source_files CONFIGURE_DEPENDS ${source_globs})
+file(GLOB_RECURSE source_files ${source_globs})
 
 set(violations "")
 
