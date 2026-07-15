@@ -26,3 +26,4 @@ compile_commands.json
 .vscode/
 .DS_Store
 Thumbs.db
+.vs/
